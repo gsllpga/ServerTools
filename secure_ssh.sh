@@ -9,6 +9,10 @@ SSH_USER="${SUDO_USER:-$USER}"
 echo "========== SSH 安全加固脚本 =========="
 echo "当前用户: $SSH_USER"
 echo
+if [ "$EUID" -ne 0 ]; then
+  echo "❌ 请使用 root 或 sudo 执行该脚本"
+  exit 1
+fi
 
 # ---------- 收集信息 ----------
 read -p "是否修改 SSH 端口？(y/n): " CHANGE_PORT
