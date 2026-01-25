@@ -4,3 +4,9 @@ curl -fsSL https://raw.githubusercontent.com/gsllpga/ServerTools/refs/heads/main
 chmod +x secure_ssh.sh
 ./secure_ssh.sh
 ```
+
+## 🔒 一键部署Prometheus探针
+```bash
+curl -fsSL https://raw.githubusercontent.com/gsllpga/ServerTools/main/install_node_exporter.sh | bash
+
+```
