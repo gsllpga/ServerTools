@@ -7,6 +7,8 @@ chmod +x secure_ssh.sh
 
 ## 🔒 一键部署Prometheus探针
 ```bash
-curl -fsSL https://raw.githubusercontent.com/gsllpga/ServerTools/main/install_node_exporter.sh | bash
+curl -fsSL https://raw.githubusercontent.com/gsllpga/ServerTools/main/install_node_exporter.sh -o node_exporter_manager.sh
+chmod +x node_exporter_manager.sh
+./node_exporter_manager.sh
 
 ```
