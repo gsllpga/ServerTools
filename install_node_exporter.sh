@@ -35,8 +35,8 @@ get_arch() {
 
 check_port() {
   local port=$1
-  if ! [[ "$port" =~ ^[0-9]+$ ]] || ((port < 1024 || port > 65535)); then
-    echo -e "${RED}端口必须是 1024-65535 之间的数字${NC}"
+  if ! [[ "$port" =~ ^[0-9]+$ ]] || ((port < 1 || port > 65535)); then
+    echo -e "${RED}端口必须是 1-65535 之间的数字${NC}"
     return 1
   fi
 
