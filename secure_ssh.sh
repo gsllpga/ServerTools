@@ -35,11 +35,22 @@ fi
 
 read -p "是否禁用密码登录？(y/n): " DISABLE_PASSWORD
 
+read -p "是否修改 ICMP ping 响应（允许/禁止 ping）？(y/n): " MODIFY_PING
+if [[ "$MODIFY_PING" =~ ^[Yy]$ ]]; then
+    read -p "请选择：allow（允许 ping）或 deny（禁止 ping）: " PING_CHOICE
+    PING_CHOICE=$(echo "$PING_CHOICE" | tr '[:upper:]' '[:lower:]')
+    if [[ "$PING_CHOICE" != "allow" && "$PING_CHOICE" != "deny" ]]; then
+        echo "❌ 输入无效，请输入 allow 或 deny"
+        exit 1
+    fi
+fi
+
 echo
 echo "========== 配置确认 =========="
 [[ "$CHANGE_PORT" =~ ^[Yy]$ ]] && echo "✔ 修改端口为: $NEW_PORT" || echo "✘ 不修改端口"
 [[ "$ENABLE_KEY" =~ ^[Yy]$ ]] && echo "✔ 启用 Key 登录" || echo "✘ 不启用 Key 登录"
 [[ "$DISABLE_PASSWORD" =~ ^[Yy]$ ]] && echo "✔ 禁用密码登录" || echo "✘ 不禁用密码登录"
+[[ "$MODIFY_PING" =~ ^[Yy]$ ]] && echo "✔ 修改 ICMP ping 为: $PING_CHOICE" || echo "✘ 不修改 ICMP ping"
 echo
 
 read -p "确认执行以上修改？(y/n): " CONFIRM
@@ -110,6 +121,35 @@ elif systemctl is-active ssh &>/dev/null; then
     systemctl restart ssh
 else
     service ssh restart || service sshd restart
+fi
+
+# ---------- 修改 ICMP Ping 响应 ----------
+if [[ "$MODIFY_PING" =~ ^[Yy]$ ]]; then
+    echo "▶ 修改 ICMP ping 响应..."
+    if [ "$PING_CHOICE" = "deny" ]; then
+        IGNORE_VALUE=1
+    else
+        IGNORE_VALUE=0
+    fi
+
+    # 立即生效
+    echo "$IGNORE_VALUE" > /proc/sys/net/ipv4/icmp_echo_ignore_all
+
+    # 永久生效
+    SYSCTL_CONF="/etc/sysctl.conf"
+    if [ ! -f "$SYSCTL_CONF" ]; then
+        touch "$SYSCTL_CONF"
+    fi
+    cp "$SYSCTL_CONF" "$SYSCTL_CONF.bak.$(date +%F_%H-%M-%S)"
+
+    if grep -qE '^[# ]*net\.ipv4\.icmp_echo_ignore_all' "$SYSCTL_CONF"; then
+        sed -i "s|^[# ]*net\.ipv4\.icmp_echo_ignore_all.*|net.ipv4.icmp_echo_ignore_all = $IGNORE_VALUE|" "$SYSCTL_CONF"
+    else
+        echo "net.ipv4.icmp_echo_ignore_all = $IGNORE_VALUE" >> "$SYSCTL_CONF"
+    fi
+
+    sysctl -p "$SYSCTL_CONF" || echo "⚠️  sysctl -p 执行失败，请手动检查配置"
+    echo "✔ ICMP ping 响应已设置为 $PING_CHOICE"
 fi
 
 echo
