@@ -20,7 +20,7 @@ chmod 755 /opt/bbr.sh
 /opt/bbr.sh
 ```
 
-## 🔒 bage BBR
+## 🔒 bage DE BBR
 ```bash
 cat > /etc/sysctl.conf << EOF
 fs.file-max = 6815744
