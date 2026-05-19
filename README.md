@@ -9,7 +9,7 @@ chmod +x secure_ssh.sh
 ```bash
 curl -fsSL https://raw.githubusercontent.com/gsllpga/ServerTools/refs/heads/main/install_nginx.sh -o install_nginx.sh
 chmod +x install_nginx.sh
-./secure_ssh.sh
+./install_nginx.sh
 ```
 
 ## 🔒 一键部署Prometheus探针
