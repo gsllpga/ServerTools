@@ -5,6 +5,13 @@ chmod +x secure_ssh.sh
 ./secure_ssh.sh
 ```
 
+## 🔒 编译安装 Nginx
+```bash
+curl -fsSL https://raw.githubusercontent.com/gsllpga/ServerTools/refs/heads/main/install_nginx.sh -o install_nginx.sh
+chmod +x install_nginx.sh
+./secure_ssh.sh
+```
+
 ## 🔒 一键部署Prometheus探针
 ```bash
 curl -fsSL https://raw.githubusercontent.com/gsllpga/ServerTools/main/node_exporter_manager.sh -o node_exporter_manager.sh
