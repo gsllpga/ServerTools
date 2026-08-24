@@ -5,12 +5,31 @@ chmod +x secure_ssh.sh
 ./secure_ssh.sh
 ```
 
+
+## 🔒 3X-UI 旧版
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/MHSanaei/3x-ui/v2.9.4/install.sh) v2.9.4
+```
+
+
+## 🔒 一键部署BBR
+```bash
+wget --no-check-certificate -O /opt/bbr.sh https://github.com/teddysun/across/raw/master/bbr.sh
+chmod 755 /opt/bbr.sh
+/opt/bbr.sh
+```
+
+
 ## 🔒 编译安装 Nginx
 ```bash
 curl -fsSL https://raw.githubusercontent.com/gsllpga/ServerTools/refs/heads/main/install_nginx.sh -o install_nginx.sh
 chmod +x install_nginx.sh
 ./install_nginx.sh
 ```
+
+
+
+
 
 ## 🔒 一键部署Prometheus探针
 ```bash
@@ -20,12 +39,6 @@ chmod +x node_exporter_manager.sh
 
 ```
 
-## 🔒 一键部署BBR
-```bash
-wget --no-check-certificate -O /opt/bbr.sh https://github.com/teddysun/across/raw/master/bbr.sh
-chmod 755 /opt/bbr.sh
-/opt/bbr.sh
-```
 
 ## 🔒 bage DE BBR
 ```bash
